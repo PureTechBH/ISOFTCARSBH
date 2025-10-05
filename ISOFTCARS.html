@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Car Programs</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<style>
+:root {
+  --main-bg: #f7f7f8;
+  --section-bg: #ececec;
+  --text-color: #1c1c1c;
+  --primary: #6a4cff;
+  --accent: #00c16a;
+  --border-gray: #d0d0d0;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --gradient: linear-gradient(90deg, #6a4cff, #00c16a);
+}
+* { box-sizing: border-box; transition: all 0.3s ease; }
+body { margin:0; font-family:'Outfit',sans-serif; background:var(--main-bg); color:var(--text-color); display:flex; }
+
+/* Arabic */
+body.ar { font-family: 'Cairo', sans-serif; direction: rtl; }
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top:0;
+  left:0;
+  width:200px;
+  height:100vh;
+  background:#1e1e1e;
+  color:white;
+  box-shadow:4px 0 12px var(--shadow);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:25px 0;
+  border-right:1px solid #333;
+  z-index:100;
+}
+.sidebar .logo { font-size:1.6rem; font-weight:700; color:var(--primary); margin-bottom:40px; }
+.sidebar a { text-decoration:none; color:white; font-size:1rem; width:160px; text-align:center; margin:10px 0; padding:12px 0; border-radius:12px; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; }
+.sidebar a i { margin-right:8px; font-size:1.3rem; }
+body.ar .sidebar a i { margin-right:0; margin-left:8px; }
+.sidebar a:hover { background:var(--gradient); color:white; transform:scale(1.05); box-shadow:0 3px 10px rgba(0,0,0,0.2); }
+
+/* Main Content */
+.content { margin-left:200px; flex:1; }
+header { background:var(--gradient); color:white; text-align:center; padding:30px 10px; font-size:2rem; font-weight:600; letter-spacing:1px; box-shadow:0 3px 8px var(--shadow); }
+.welcome { text-align:center; margin:60px 20px 20px; font-size:2.5rem; font-weight:600; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+.section { background:var(--section-bg); margin:60px auto; border-radius:20px; padding:40px 25px; max-width:1200px; box-shadow:0 4px 12px var(--shadow); border:1px solid var(--border-gray); }
+.section-banner { background:var(--gradient); color:white; text-align:center; padding:15px 0; font-size:1.6rem; border-radius:12px; letter-spacing:1px; margin-bottom:25px; font-weight:500; }
+.car-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:30px; justify-items:center; }
+.car-card { background:#fff; border-radius:16px; padding:18px; text-align:center; box-shadow:0 3px 10px var(--shadow); border:1px solid #e2e2e2; transition:transform 0.35s ease, box-shadow 0.35s ease, filter 0.3s; }
+.car-card:hover { transform:translateY(-5px) scale(1.03); box-shadow:0 6px 16px rgba(0,0,0,0.15); filter:drop-shadow(0 0 15px var(--accent)); }
+.car-card img { width:100%; height:auto; object-fit:contain; border-radius:10px; }
+.car-name { margin-top:12px; font-size:1.1rem; font-weight:500; color:#222; }
+.get-btn { margin-top:14px; background:var(--accent); color:white; padding:10px 20px; border:none; border-radius:8px; font-size:1rem; cursor:pointer; transition:background 0.3s, transform 0.2s; }
+.get-btn:hover { background:#00e27f; transform:scale(1.05); }
+
+footer { background:var(--gradient); color:white; text-align:center; padding:25px; font-size:0.95rem; letter-spacing:0.5px; margin-top:80px; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.car-card { animation:fadeUp 0.8s ease both; }
+
+/* Modal Styles */
+.modal-bg { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:200; }
+.modal { background:white; border-radius:16px; padding:30px; max-width:500px; width:90%; box-shadow:0 8px 20px rgba(0,0,0,0.2); position:relative; text-align:left; }
+.modal h2 { margin-top:0; color:var(--primary); font-size:1.5rem; }
+.modal .faq { margin-bottom:15px; }
+.modal .faq p { margin:4px 0; }
+.modal button { margin-top:10px; background:var(--accent); color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:600; }
+.close-btn { position:absolute; top:12px; right:12px; font-size:1.2rem; font-weight:bold; cursor:pointer; }
+/* Moving Offer Strip */
+.offer-strip {
+  background: var(--gradient);
+  color: white;
+  padding: 12px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.offer-strip p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 15s linear infinite;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* RTL Fixes for Arabic */
+body.ar .content { margin-left:0; margin-right:200px; }
+body.ar .sidebar { left:auto; right:0; border-left:1px solid #333; border-right:none; }
+body.ar .car-card { text-align:right; }
+body.ar .section-banner { text-align:center; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="logo">
+    <img src="https://i.ibb.co/8D4YhLP8/i-Soft-Cars-BH.png" alt="i-Soft Cars BH" style="width:140px; height:auto;">
+  </div>
+  <a href="index.html"><i class="fas fa-home"></i><span data-en="Home" data-ar="الرئيسية">Home</span></a>
+  <a href="https://www.tiktok.com/@ihackcarsbh" target="_blank"><i class="fab fa-tiktok"></i><span data-en="TikTok" data-ar="تيك توك">TikTok</span></a>
+  <a href="https://wa.me/+97337021001" target="_blank"><i class="fab fa-whatsapp"></i><span data-en="WhatsApp" data-ar="واتساب">WhatsApp</span></a>
+  <a href="https://www.instagram.com/jetour.t2.software/" target="_blank"><i class="fab fa-instagram"></i><span data-en="Instagram" data-ar="انستقرام">Instagram</span></a>
+  <a href="#" onclick="openFAQ()"><i class="fas fa-question-circle"></i><span data-en="FAQ" data-ar="الأسئلة">FAQ</span></a>
+  <button style="margin-top:20px;padding:8px 12px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;" onclick="switchLang()">
+    <span data-en="AR/EN" data-ar="EN/AR">AR/EN</span>
+  </button>
+</div>
+
+<!-- Main content -->
+<div class="content">
+<header data-en="iSoftCarsBH Automotive Professional Programer ... BH" data-ar="آي سـوفـت كـارس برمجة شـاشـات السيارات بشكل أحترافي">iSoftCarsBH Automotive Professional Programer ... BH </header>
+<div class="welcome" data-en="Welcome to Your Trusted Automotive Partner" data-ar="مرحباً بك في شريكك الموثوق لبرمجة شاشات السيارات في البحرين ">Welcome to Your Trusted Automotive Partner  For Car Programing in Bahrain</div>
+<div class="offer-strip">
+  <p data-en="We Provide ⭐Special Services on Your Car GU Including⭐  Youtube , ⭐ All Social Media apps ⭐ Modern UI interface all not ⭐ affecting ⭐Warranty WhatsApp Us "Site" ⭐ Do get your offer" data-ar="⭐مختصون في برمجة أغلب فئات شاشات السيارات الصينية وتحميل عليها البرامج التطبيقات اليوتيوب وبرامج التواصل الأجتماعي والمزيدمن التطبيقات كلها على شاشة سيارتكم أسعارنا الأفضل وخدماتنا عديده ومتنوعه لاتتردد في التواصل معنا أرسل على الواتس أب %⭐عرض الموقع⭐ ⭐">We Provide ⭐Special Services on Your Car GU Including⭐  Youtube , ⭐ All Social Media apps ⭐ Modern UI interface all not ⭐ affecting ⭐Warranty WhatsApp Us "Site" ⭐ Do get your offer</p>
+</div>
+
+<!-- JETOUR -->
+<div class="section">
+  <div class="section-banner" data-en="JETOUR" data-ar="جيتور">JETOUR</div>
+  <div class="car-grid">
+    <div class="car-card"><a href="#"><img src="https://jetourglobal.com/data/tms/website/html/images/carModel/t1/Whitecar.png" alt="Jetour T1"></a><div class="car-name">T1</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://jetourglobal.com/data/tms/website/html/images/carModel/t2/cart1mb.png" alt="Jetour T2"></a><div class="car-name">T2</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://jetouroman.com/wp-content/uploads/2022/11/Dashing.png" alt="Dashing"></a><div class="car-name">Dashing</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://jetourqatar.com/gallery/images/car_model/1726407448main.png" alt="X90"></a><div class="car-name">X90</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+  </div>
+</div>
+
+<!-- HAVAL -->
+<div class="section">
+  <div class="section-banner" data-en="HAVAL" data-ar="هافال">HAVAL</div>
+  <div class="car-grid">
+    <div class="car-card"><a href="#"><img src="https://kanavto.ru/car-photos/219608nf9n40srtmk/medium/ac68d28064a53da55ab13e47433ce32e.png" alt="H3"></a><div class="car-name">H3</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://www.gwmjordan.com/sites/default/files/styles/16_9_xsmall/public/2023-02/H6_hybrid_white_00008.png?itok=I7YgaGbC" alt="H6"></a><div class="car-name">H6</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://www.gwmjordan.com/sites/default/files/styles/16_9_xsmall/public/2025-02/h7-orange-00005_0.png?itok=wmIZJLqa" alt="H7"></a><div class="car-name">H7</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://haval.bh/wp-content/uploads/2024/10/H9_2024.png" alt="H9"></a><div class="car-name">H9</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://planetamotors.com.pe/wp-content/uploads/2023/12/Proyecto-nuevo-4.png" alt="Dargo"></a><div class="car-name">Dargo</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://sevens.sa/wp-content/uploads/2021/04/Red-3.png" alt="Jolion"></a><div class="car-name">Jolion</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://brendanfoot.co.nz/wp-content/uploads/2023/01/Tank-300_480x360.png" alt="Tank300"></a><div class="car-name">Tank300</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://www.inghamdriven.nz/gwm/wp-content/uploads/sites/59/2024/12/Tank500_Gold_1200x628-1.png" alt="Tank500"></a><div class="car-name">Tank500</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+  </div>
+</div>
+
+<!-- CHANGAN -->
+<div class="section">
+  <div class="section-banner" data-en="CHANGAN" data-ar="شانجان">CHANGAN</div>
+  <div class="car-grid">
+    <div class="car-card"><a href="#"><img src="https://inchcapelatam.sirv.com/Changan/CS35PSC7144GCC6H2/New-CS35-plus-1000x493-rojo.png" alt="CS35"></a><div class="car-name">CS35</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://inchcapelatam.sirv.com/Changan/CS55SC6452ABA6L2/CS55-1000x493-blanco.png" alt="CS55"></a><div class="car-name">CS55</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://changan-ksa.com/wp-content/uploads/2025/09/Light-Golden.png" alt="CS75"></a><div class="car-name">CS75</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://www.changanirapuato.mx/static/agency-go-virtual/Changan/2025/inventory-form/cs95.png" alt="CS95"></a><div class="car-name">CS95</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://motorworldgroupsxm.com/wp-content/uploads/uni-k-website-pic.png" alt="UNI-K"></a><div class="car-name">UNI-K</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://www.changanjo.com/assets/img/Images/Home_UniT.png" alt="UNI-T"></a><div class="car-name">UNI-T</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://bazis-motors.ru/upload/comp/upload/iblock/c9a/1beswirrp8pzgysniemoaoff9b38329m.png.webp?172715886445720" alt="UNI-S"></a><div class="car-name">UNI-S</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://nezavisimost.su/img/cars/910/43139.png?v=14.5" alt="UNI-V"></a><div class="car-name">UNI-V</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="https://www.changan.mx/static/agency-go-virtual/Changan/2025/inventory-form/eado-plus.png" alt="EADO Plus"></a><div class="car-name">EADO Plus</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+  </div>
+</div>
+
+<!-- JACEOO -->
+<div class="section">
+  <div class="section-banner" data-en="JACEOO" data-ar="جاكيو">JACEOO</div>
+  <div class="car-grid">
+    <div class="car-card"><a href="#"><img src="#"><img src="https://www.omodajaecoo.co.nz/sites/default/files/styles/rescale_width_860/public/2024-06/J7-Colours-Config-HD-Carbon-Crystal-Black-%26-Model-Green.png?itok=OJtxqtf_" alt="Jaceoo J7"></a><div class="car-name">J7</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+    <div class="car-card"><a href="#"><img src="#"><img src="https://www.omodajaecoo.com.au/sites/default/files/styles/rescale_width_860/public/2025-05/Jaecoo_J8_Black_1023x419_.png?itok=cbgku5zV" alt="Jaceoo J8"></a><div class="car-name">J8</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+  </div>
+</div>
+
+<!-- GAC -->
+<div class="section">
+  <div class="section-banner" data-en="GAC" data-ar="جي إيه سي">GAC</div>
+  <div class="car-grid">
+    <div class="car-card"><a href="#"><img src="#"><img src="https://gacmotor.bh/wp-content/uploads/2022/10/628babaeaa663.png" alt="GAC GS8"></a><div class="car-name">GS8</div><button class="get-btn" onclick="openWhatsApp()">Get Program</button></div>
+  </div>
+</div>
+
+<!-- FAQ Modal -->
+<div class="modal-bg" id="faqModal">
+  <div class="modal">
+    <span class="close-btn" onclick="closeFAQ()">&times;</span>
+    <h2 data-en="Frequently Asked Questions" data-ar="الأسئلة المتكررة">Frequently Asked Questions</h2>
+    <div class="faq">
+      <p data-en="Q1: How do I get the car program?" data-ar="س1: كيف أحصل على برنامج السيارة؟">Q1: How do I get the car program?</p>
+      <p data-en="A: Click the 'Get Program' button to open WhatsApp chat with us." data-ar="ج: اضغط على زر 'الحصول على البرنامج' لفتح محادثة واتساب معنا.">A: Click the 'Get Program' button to open WhatsApp chat with us.</p>
+    </div>
+    <div class="faq">
+      <p data-en="Q2: Are these offers valid for all models?" data-ar="س2: هل هذه العروض صالحة لجميع الموديلات؟">Q2: Are these offers valid for all models?</p>
+      <p data-en="A: Yes, the current offer applies to all listed cars." data-ar="ج: نعم، العرض الحالي ينطبق على جميع السيارات المدرجة.">A: Yes, the current offer applies to all listed cars.</p>
+    </div>
+    <button onclick="closeFAQ()" data-en="Close" data-ar="إغلاق">Close</button>
+  </div>
+</div>
+
+<footer data-en="© CALL: +97337021001 / 2025 i-Soft Cars BH. All rights reserved./ BAHRAIN" data-ar="+97337021001 © 2025 أي-سوفت كارز. جميع الحقوق محفوظة.البحرين ">© CALL: +97337021001 / 2025 i-Soft Cars BH. All rights reserved./ BAHRAIN</footer>
+
+<script>
+// Open WhatsApp
+function openWhatsApp() {
+  window.open("https://wa.me/+97337021001", "_blank");
+}
+
+// Open/Close FAQ
+function openFAQ() { document.getElementById('faqModal').style.display='flex'; }
+function closeFAQ() { document.getElementById('faqModal').style.display='none'; }
+
+// Language switch
+function switchLang() {
+  const body = document.body;
+  const isAr = body.classList.contains('ar');
+  toggleLanguage(isAr ? 'en' : 'ar');
+  localStorage.setItem('lang', isAr ? 'en' : 'ar');
+}
+
+function toggleLanguage(lang) {
+  const body = document.body;
+  if(lang==='ar') body.classList.add('ar'); else body.classList.remove('ar');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = (lang==='ar') ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+  });
+}
+
+// Random gradient on each refresh
+document.addEventListener('DOMContentLoaded', ()=>{
+const colors = [
+  ['#8e0e00', '#1f1c18'],       // Deep red to dark brown/black
+  ['#11998e', '#38ef7d'],       // Green gradient (teal to light green)
+  ['#6a11cb', '#2575fc'],       // Purple to blue
+  ['#f7971e', '#ffd200']        // Orange to yellow
+];
+  const rand = colors[Math.floor(Math.random()*colors.length)];
+  document.documentElement.style.setProperty('--gradient',`linear-gradient(90deg, ${rand[0]}, ${rand[1]})`);
+  // set saved language
+  const savedLang = localStorage.getItem('lang') || 'en';
+  toggleLanguage(savedLang);
+});
+</script>
+</body>
+</html>
